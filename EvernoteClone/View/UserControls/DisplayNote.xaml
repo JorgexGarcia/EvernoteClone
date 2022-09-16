@@ -12,9 +12,9 @@
                    Foreground="Black"
                    FontSize="15"
                    FontWeight="Bold"/>
-        <TextBlock Text="{Binding UpdatedAt}"
+        <TextBlock Text="{Binding UpdatedAt}" 
                    Margin="0,10,0,0"
                    Foreground="DodgerBlue"
-                   FontSize="12"/>
+                   FontSize="10"/>
     </StackPanel>
 </UserControl>

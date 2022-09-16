@@ -78,10 +78,17 @@ namespace EvernoteClone.ViewModel
         {
             Notebook newNotebook = new Notebook
             {
-                Name = "Notebook"
+                Name = "Cuaderno"
             };
 
             DatabaseHelper.Insert(newNotebook);
+
+            var temp = DatabaseHelper.Read<Notebook>().Where(n => n.Name == newNotebook.Name).FirstOrDefault();
+            var temList = DatabaseHelper.Read<Notebook>().ToList();
+
+            if (temp != null) temp.Name = $"{temList.Count} - {temp.Name}";
+
+            DatabaseHelper.Update(temp);
 
             GetNotebooks();
         }
@@ -93,10 +100,18 @@ namespace EvernoteClone.ViewModel
                 NotebookId = notebookId,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
-                Title = $"Note for {DateTime.Now.ToString()}"
+                Title = $"Nota"
             };
 
             DatabaseHelper.Insert(newNote);
+
+            var temp = DatabaseHelper.Read<Note>().Where(n => n.Title == newNote.Title).FirstOrDefault();
+
+            var temList = DatabaseHelper.Read<Note>().Where(n => n.NotebookId == notebookId).ToList();
+
+            if (temp != null) temp.Title = $"{temp.Title} - {temList.Count}";
+
+            DatabaseHelper.Update(temp);
 
             GetNotes();
         }
@@ -139,6 +154,11 @@ namespace EvernoteClone.ViewModel
         public void StopEditing(Notebook notebook)
         {
             IsVisible = Visibility.Collapsed;
+
+            var temp = DatabaseHelper.Read<Notebook>().Where(n => n.Name == notebook.Name).FirstOrDefault();
+
+            if (temp != null) notebook.Name = $"{notebook.Name} (2)";
+
             DatabaseHelper.Update(notebook);
             GetNotebooks();
         }

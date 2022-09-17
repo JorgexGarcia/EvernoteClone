@@ -34,7 +34,10 @@ namespace EvernoteClone.ViewModel
                 User = new User
                 {
                     Username = username,
-                    Password = this.Password
+                    Password = this.Password,
+                    Name = this.Name,
+                    Lastname = this.Lastname,
+                    ConfirmPassword = this.ConfirmPassword
                 };
                 OnPropertyChanged("Username");
             }
@@ -51,9 +54,72 @@ namespace EvernoteClone.ViewModel
                 User = new User
                 {
                     Username = this.Username,
-                    Password = password
+                    Password = password,
+                    Name = this.Name,
+                    Lastname = this.Lastname,
+                    ConfirmPassword = this.ConfirmPassword
                 };
                 OnPropertyChanged("Password");
+            }
+        }
+
+        private string name;
+
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                User = new User
+                {
+                    Username = this.Username,
+                    Password = this.Password,
+                    Name = name,
+                    Lastname = this.Lastname,
+                    ConfirmPassword = this.ConfirmPassword
+                };
+                OnPropertyChanged("Name");
+            }
+        }
+
+        private string lastname;
+
+        public string Lastname
+        {
+            get { return lastname; }
+            set
+            {
+                lastname = value;
+                User = new User
+                {
+                    Username = this.Username,
+                    Password = this.Password,
+                    Name = this.Name,
+                    Lastname = lastname,
+                    ConfirmPassword = this.ConfirmPassword
+                };
+                OnPropertyChanged("Lastname");
+            }
+        }
+
+        private string confirmPassword;
+
+        public string ConfirmPassword
+        {
+            get { return confirmPassword; }
+            set
+            {
+                confirmPassword = value;
+                User = new User
+                {
+                    Username = this.Username,
+                    Password = this.Password,
+                    Name = this.Name,
+                    Lastname = this.Lastname,
+                    ConfirmPassword = confirmPassword
+                };
+                OnPropertyChanged("ConfirmPassword");
             }
         }
 
@@ -91,6 +157,8 @@ namespace EvernoteClone.ViewModel
 
         public LoginVM()
         {
+            User = new User();
+
             loginVis = Visibility.Visible;
             registerVis = Visibility.Collapsed;
 
@@ -98,7 +166,6 @@ namespace EvernoteClone.ViewModel
             LoginCommand = new LoginCommand(this);
             ShowRegisterCommand = new ShowRegisterCommand(this);
 
-            User = new User();
         }
 
         public void SwitchViews()

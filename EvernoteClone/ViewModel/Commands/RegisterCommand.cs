@@ -18,14 +18,14 @@ namespace EvernoteClone.ViewModel.Commands
 
         public bool CanExecute(object parameter)
         {
-            User user = (parameter as User);
+            //User user = (parameter as User);
 
-            if (user == null) return false;
+            //if (user == null) return false;
 
-            if (string.IsNullOrEmpty(user.Username)) return false;
-            if (string.IsNullOrEmpty(user.Password)) return false;
-            if (string.IsNullOrEmpty(user.ConfirmPassword)) return false;
-            if (user.Password != user.ConfirmPassword) return false;
+            //if (string.IsNullOrEmpty(user.Username)) return false;
+            //if (string.IsNullOrEmpty(user.Password)) return false;
+            //if (string.IsNullOrEmpty(user.ConfirmPassword)) return false;
+            //if (user.Password != user.ConfirmPassword) return false;
 
             return true;
         }

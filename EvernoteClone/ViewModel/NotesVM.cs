@@ -82,7 +82,7 @@ namespace EvernoteClone.ViewModel
                 UserId = App.UserId
             };
 
-            DatabaseHelper.Insert(newNotebook);
+             DatabaseHelper.Insert(newNotebook);
 
             var temp = DatabaseHelper.Read<Notebook>().Where(n => n.Name == newNotebook.Name).FirstOrDefault();
             var temList = DatabaseHelper.Read<Notebook>().ToList();

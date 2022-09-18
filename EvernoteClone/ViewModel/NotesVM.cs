@@ -27,6 +27,32 @@ namespace EvernoteClone.ViewModel
             }
         }
 
+        public async void DeleteNote(Note note)
+        {
+            try
+            {
+                await DatabaseHelper.DeleteFB(note);
+                GetNotes();
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+
+        public async void DeleteNotebook(Notebook notebook)
+        {
+            try
+            {
+                await DatabaseHelper.DeleteFB(notebook);
+                GetNotebooks();
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+
         private Note selectedNote;
 
         public Note SelectedNote
@@ -55,6 +81,8 @@ namespace EvernoteClone.ViewModel
         public NewNoteCommand NewNoteCommand { get; set; }
         public EditCommand EditCommand { get; set; }
         public EndEditingCommand EndEditingCommand { get; set; }
+        public DeleteNotebookCommand DeleteNotebookCommand { get; set; }
+        public DeleteNoteCommand DeleteNoteCommand { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler SelectedNoteChanged;
@@ -65,6 +93,8 @@ namespace EvernoteClone.ViewModel
             NewNotebookCommand = new NewNotebookCommand(this);
             EditCommand = new EditCommand(this);
             EndEditingCommand = new EndEditingCommand(this);
+            DeleteNotebookCommand = new DeleteNotebookCommand(this);
+            DeleteNoteCommand = new DeleteNoteCommand(this);
 
             Notebooks = new ObservableCollection<Notebook>();
             Notes = new ObservableCollection<Note>();
@@ -84,13 +114,6 @@ namespace EvernoteClone.ViewModel
 
             await DatabaseHelper.InsertFB(newNotebook);
 
-            //var temp = (await DatabaseHelper.ReadFB<Notebook>()).Where(n => n.Name == newNotebook.Name).FirstOrDefault();
-            //var temList = (await DatabaseHelper.ReadFB<Notebook>()).ToList();
-
-            //if (temp != null) temp.Name = $"{temList.Count} - {temp.Name}";
-
-            //DatabaseHelper.Update(temp);
-
             GetNotebooks();
         }
 
@@ -105,14 +128,6 @@ namespace EvernoteClone.ViewModel
             };
 
             await DatabaseHelper.InsertFB(newNote);
-
-            //var temp = (await DatabaseHelper.ReadFB<Note>()).Where(n => n.Title == newNote.Title).FirstOrDefault();
-
-            //var temList = (await DatabaseHelper.ReadFB<Note>()).Where(n => n.NotebookId == notebookId).ToList();
-
-            //if (temp != null) temp.Title = $"{temp.Title} - {temList.Count}";
-
-            //DatabaseHelper.Update(temp);
 
             GetNotes();
         }
@@ -155,10 +170,6 @@ namespace EvernoteClone.ViewModel
         public async void StopEditing(Notebook notebook)
         {
             IsVisible = Visibility.Collapsed;
-
-            var temp = (await DatabaseHelper.ReadFB<Notebook>()).Where(n => n.Name == notebook.Name).FirstOrDefault();
-
-            if (temp != null) notebook.Name = $"{notebook.Name} (2)";
 
             await DatabaseHelper.UpdateFB(notebook);
             GetNotebooks();

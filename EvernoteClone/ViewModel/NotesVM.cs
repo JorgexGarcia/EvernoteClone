@@ -74,7 +74,7 @@ namespace EvernoteClone.ViewModel
             GetNotebooks();
         }
 
-        public void CreateNotebook()
+        public async void CreateNotebook()
         {
             Notebook newNotebook = new Notebook
             {
@@ -82,7 +82,7 @@ namespace EvernoteClone.ViewModel
                 UserId = App.UserId
             };
 
-            DatabaseHelper.Insert(newNotebook);
+            await DatabaseHelper.InsertFB(newNotebook);
 
             var temp = DatabaseHelper.Read<Notebook>().Where(n => n.Name == newNotebook.Name).FirstOrDefault();
             var temList = DatabaseHelper.Read<Notebook>().ToList();
@@ -94,7 +94,7 @@ namespace EvernoteClone.ViewModel
             GetNotebooks();
         }
 
-        public void CreateNote(int notebookId)
+        public async void CreateNote(int notebookId)
         {
             Note newNote = new Note
             {
@@ -104,7 +104,7 @@ namespace EvernoteClone.ViewModel
                 Title = $"Nota"
             };
 
-            DatabaseHelper.Insert(newNote);
+            await DatabaseHelper.InsertFB(newNote);
 
             var temp = DatabaseHelper.Read<Note>().Where(n => n.Title == newNote.Title).FirstOrDefault();
 

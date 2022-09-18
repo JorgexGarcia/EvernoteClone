@@ -157,11 +157,11 @@ namespace EvernoteClone.View
             contentRichTextBox.Selection.ApplyPropertyValue(Inline.FontSizeProperty, fontSizeComboBox.Text);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
             string rtfFile = System.IO.Path.Combine(Environment.CurrentDirectory, $"{viewModel.SelectedNote.Id}.rtf");
             viewModel.SelectedNote.FileLocation = rtfFile;
-            DatabaseHelper.Update(viewModel.SelectedNote);
+            await DatabaseHelper.UpdateFB(viewModel.SelectedNote);
 
             FileStream fileStream = new FileStream(rtfFile, FileMode.Create);
             var contents = new TextRange(contentRichTextBox.Document.ContentStart, contentRichTextBox.Document.ContentEnd);

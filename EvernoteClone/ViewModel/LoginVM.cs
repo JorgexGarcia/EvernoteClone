@@ -157,8 +157,6 @@ namespace EvernoteClone.ViewModel
 
         public LoginVM()
         {
-            User = new User();
-
             loginVis = Visibility.Visible;
             registerVis = Visibility.Collapsed;
 
@@ -166,6 +164,7 @@ namespace EvernoteClone.ViewModel
             LoginCommand = new LoginCommand(this);
             ShowRegisterCommand = new ShowRegisterCommand(this);
 
+            User = new User();
         }
 
         public void SwitchViews()

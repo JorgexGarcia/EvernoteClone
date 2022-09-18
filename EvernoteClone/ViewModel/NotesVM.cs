@@ -84,17 +84,17 @@ namespace EvernoteClone.ViewModel
 
             await DatabaseHelper.InsertFB(newNotebook);
 
-            var temp = DatabaseHelper.Read<Notebook>().Where(n => n.Name == newNotebook.Name).FirstOrDefault();
-            var temList = DatabaseHelper.Read<Notebook>().ToList();
+            //var temp = (await DatabaseHelper.ReadFB<Notebook>()).Where(n => n.Name == newNotebook.Name).FirstOrDefault();
+            //var temList = (await DatabaseHelper.ReadFB<Notebook>()).ToList();
 
-            if (temp != null) temp.Name = $"{temList.Count} - {temp.Name}";
+            //if (temp != null) temp.Name = $"{temList.Count} - {temp.Name}";
 
-            DatabaseHelper.Update(temp);
+            //DatabaseHelper.Update(temp);
 
             GetNotebooks();
         }
 
-        public async void CreateNote(int notebookId)
+        public async void CreateNote(string notebookId)
         {
             Note newNote = new Note
             {
@@ -106,20 +106,20 @@ namespace EvernoteClone.ViewModel
 
             await DatabaseHelper.InsertFB(newNote);
 
-            var temp = DatabaseHelper.Read<Note>().Where(n => n.Title == newNote.Title).FirstOrDefault();
+            //var temp = (await DatabaseHelper.ReadFB<Note>()).Where(n => n.Title == newNote.Title).FirstOrDefault();
 
-            var temList = DatabaseHelper.Read<Note>().Where(n => n.NotebookId == notebookId).ToList();
+            //var temList = (await DatabaseHelper.ReadFB<Note>()).Where(n => n.NotebookId == notebookId).ToList();
 
-            if (temp != null) temp.Title = $"{temp.Title} - {temList.Count}";
+            //if (temp != null) temp.Title = $"{temp.Title} - {temList.Count}";
 
-            DatabaseHelper.Update(temp);
+            //DatabaseHelper.Update(temp);
 
             GetNotes();
         }
 
-        public void GetNotebooks()
+        public async void GetNotebooks()
         {
-            var notebooks = DatabaseHelper.Read<Notebook>().Where(n => n.UserId == App.UserId).ToList();
+            var notebooks = (await DatabaseHelper.ReadFB<Notebook>()).Where(n => n.UserId == App.UserId);
 
             Notebooks.Clear();
             foreach(var notebook in notebooks)
@@ -128,11 +128,11 @@ namespace EvernoteClone.ViewModel
             }
         }
 
-        private void GetNotes()
+        private async void GetNotes()
         {
             if (SelectedNotebook != null)
             {
-                var notes = DatabaseHelper.Read<Note>().Where(n => n.NotebookId == SelectedNotebook.Id).ToList();
+                var notes =(await DatabaseHelper.ReadFB<Note>()).Where(n => n.NotebookId == SelectedNotebook.Id).ToList();
 
                 Notes.Clear();
                 foreach (var note in notes)
@@ -152,15 +152,15 @@ namespace EvernoteClone.ViewModel
             IsVisible = Visibility.Visible;
         }
 
-        public void StopEditing(Notebook notebook)
+        public async void StopEditing(Notebook notebook)
         {
             IsVisible = Visibility.Collapsed;
 
-            var temp = DatabaseHelper.Read<Notebook>().Where(n => n.Name == notebook.Name).FirstOrDefault();
+            var temp = (await DatabaseHelper.ReadFB<Notebook>()).Where(n => n.Name == notebook.Name).FirstOrDefault();
 
             if (temp != null) notebook.Name = $"{notebook.Name} (2)";
 
-            DatabaseHelper.Update(notebook);
+            await DatabaseHelper.UpdateFB(notebook);
             GetNotebooks();
         }
     }
